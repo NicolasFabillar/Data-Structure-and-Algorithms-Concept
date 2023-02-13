@@ -61,14 +61,13 @@ def PlayGame():
     if lives == 0:
         print("\nGame Over! You got no more life. The word is:", word)
 
-    Value1.get()
-    Value2.get()
     Value1.set(' '.join(CurrentWord()))
     Value2.set(lives)
     print(CurrentWord())
 
 
-def Hint(Hints):
+def Hint():
+    global Hints
     if Hints > 0:
         FreeLetter = random.choice(LettersInWord)
         UsedLetters.append(FreeLetter)
@@ -78,6 +77,8 @@ def Hint(Hints):
         Hints -= 1
     else:
         print("\n\tNo more Tips left.")
+    Value1.set(' '.join(CurrentWord()))
+    Value3.set(Hints)
 
 
 Value1 = StringVar()
@@ -89,14 +90,15 @@ Value3.set(Hints)
 Label1 = Label(top, text = "Lives:", bg = "#f0e09c").place(x = 15, y = 10)
 Label1a = tk.Entry(top, width = 13, state = "disable", textvariable = Value2,justify = CENTER).place(x = 72, y = 10)
 Label2 = Label(top, text = "Hints: ", bg = "#f0e09c").place(x = 190, y = 10)
-Label2a = tk.Entry(top, width = 17, state = "disable", textvariable = Value3,justify = CENTER).place(x = 250, y = 10)
+Label2a = tk.Entry(top, width = 13, state = "disable", textvariable = Value3,justify = CENTER).place(x = 250, y = 10)
 
 Label3 = Label(top, text = "Word To Guess: ", bg = "#f0e09c").place(x = 15, y = 45)
-Label3a = tk.Entry(top, width = 17, state = "disable", textvariable = Value1,justify = CENTER).place(x = 130, y = 45)
+Label3a = tk.Entry(top, state = "disable", textvariable = Value1,justify = CENTER).place(x = 130, y = 45)
 
 Label4 = Label(top, text = "Input a letter:", bg = "#f0e09c").place(x = 15, y = 80)
 LetterInput = StringVar()
 InputBox1 = Entry(top, textvariable = LetterInput,bg = "#9bdbad").place(x = 130, y = 80)
 AddItem = Button(top,width = 11, text = "Enter", activebackground = "white", command = PlayGame,bg = "#73de91").place(x = 280, y = 76)
+HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#73de91").place(x = 150, y = 115)
 
 top.mainloop()
