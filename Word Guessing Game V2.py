@@ -22,6 +22,29 @@ LettersInWord = list(word.upper())
 Alphabet = list(string.ascii_uppercase)
 UsedLetters = list()
 
+def PlayAgain():
+    global word
+    global words
+    global LettersInWord
+    global UsedLetters
+    global lives
+    global Hints
+
+    word = random.choice(words).upper()
+
+    while "-" in word or " " in word:
+        word = random.choice(words).upper()
+
+    LettersInWord = list(word.upper())
+    UsedLetters = []
+    lives = 5
+    Hints = 3
+    Value5.set(' '.join(UsedLetters))
+    Value1.set(' '.join(CurrentWord()))
+    Value2.set(lives)
+    Value3.set(Hints)
+    Value6.set("New Game")
+
 def CurrentWord():
     WordDisplay = list()
     for Letter in word:
@@ -37,7 +60,6 @@ Hints = 3
 def PlayGame():
     global lives
     UserInput = LetterInput.get().upper()
-    print(UserInput)
     if len(LettersInWord) != 0 and lives != 0:
         if UserInput in UsedLetters:
             Value6.set("You already chose that letter. Choose a different one. ")
@@ -48,12 +70,13 @@ def PlayGame():
                 for Letter in LettersInWord:
                     if UserInput == Letter:
                         LettersInWord.remove(UserInput)
+                        Value6.set("Good Job!")
             else:
                 Value6.set("Wrong Guess!")
                 lives -= 1
 
         if not UserInput:
-            print("Enter a letter in the box first")
+            Value6.set("Enter a letter in the box first.")
 
     if len(LettersInWord) == 0:
         Value6.set("BINGO! The word is: " + word)
@@ -76,11 +99,10 @@ def Hint():
                 LettersInWord.remove(FreeLetter)
         Hints -= 1
 
-    if len(LettersInWord) == 0:
-        Value6.set("BINGO! The word is: " + word)
-
     if Hints == 0:
         Value6.set("No more tips left.")
+        if len(LettersInWord) == 0:
+            Value6.set("BINGO! The word is: " + word)
 
     Value1.set(' '.join(CurrentWord()))
     Value3.set(Hints)
@@ -97,6 +119,7 @@ Label2 = Label(top, text = "Hints: ", bg = "#f0e09c").place(x = 190, y = 10)
 Label2a = tk.Entry(top, width = 13, state = "disable", textvariable = Value3,justify = CENTER).place(x = 250, y = 10)
 
 Value6 = StringVar()
+Value6.set("New Game")
 Label6 = tk.Entry(top, state = "disable", width = 50, textvariable = Value6,justify = CENTER).place(x = 40, y = 45)
 
 Value5 = StringVar()
@@ -111,6 +134,9 @@ Label4 = Label(top, text = "Input a letter:", bg = "#f0e09c").place(x = 15, y = 
 LetterInput = StringVar()
 InputBox1 = Entry(top, textvariable = LetterInput,bg = "#9bdbad", justify = CENTER).place(x = 130, y = 150)
 AddItem = Button(top,width = 11, text = "Enter", activebackground = "white", command = PlayGame,bg = "#73de91").place(x = 280, y = 146)
+
 HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#73de91").place(x = 150, y = 180)
+PlayAgainButton = Button(top,width = 11, text = "Restart", activebackground = "white", command = PlayAgain,bg = "#73de91").place(x = 150, y = 215)
+
 
 top.mainloop()
