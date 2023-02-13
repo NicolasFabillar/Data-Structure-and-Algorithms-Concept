@@ -98,6 +98,7 @@ def Hint():
             if FreeLetter in Letter:
                 LettersInWord.remove(FreeLetter)
         Hints -= 1
+        Value6.set("Hint Given!")
 
     if Hints == 0:
         Value6.set("No more tips left.")
@@ -106,6 +107,7 @@ def Hint():
 
     Value1.set(' '.join(CurrentWord()))
     Value3.set(Hints)
+    Value5.set(' '.join(UsedLetters))
 
 Value1 = StringVar()
 Value1.set(' '.join(CurrentWord()))
@@ -123,7 +125,7 @@ Value6.set("New Game")
 Label6 = tk.Entry(top, state = "disable", width = 50, textvariable = Value6,justify = CENTER).place(x = 40, y = 45)
 
 Value5 = StringVar()
-Label5 = Label(top, text = "Used Words: ", bg = "#f0e09c").place(x = 15, y = 80)
+Label5 = Label(top, text = "Used Letters: ", bg = "#f0e09c").place(x = 15, y = 80)
 Label5a = tk.Entry(top, state = "disable", textvariable = Value5,justify = CENTER).place(x = 130, y = 80)
 
 
