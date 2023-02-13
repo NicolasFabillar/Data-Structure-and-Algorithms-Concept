@@ -63,8 +63,8 @@ def PlayGame():
 
     Value1.set(' '.join(CurrentWord()))
     Value2.set(lives)
+    Value5.set(' '.join(UsedLetters))
     print(CurrentWord())
-
 
 def Hint():
     global Hints
@@ -77,6 +77,7 @@ def Hint():
         Hints -= 1
     else:
         print("\n\tNo more Tips left.")
+
     Value1.set(' '.join(CurrentWord()))
     Value3.set(Hints)
 
@@ -92,13 +93,17 @@ Label1a = tk.Entry(top, width = 13, state = "disable", textvariable = Value2,jus
 Label2 = Label(top, text = "Hints: ", bg = "#f0e09c").place(x = 190, y = 10)
 Label2a = tk.Entry(top, width = 13, state = "disable", textvariable = Value3,justify = CENTER).place(x = 250, y = 10)
 
-Label3 = Label(top, text = "Word To Guess: ", bg = "#f0e09c").place(x = 15, y = 45)
-Label3a = tk.Entry(top, state = "disable", textvariable = Value1,justify = CENTER).place(x = 130, y = 45)
+Value5 = StringVar()
+Label5 = Label(top, text = "Used Words: ", bg = "#f0e09c").place(x = 15, y = 45)
+Label5a = tk.Entry(top, state = "disable", textvariable = Value5,justify = CENTER).place(x = 130, y = 45)
 
-Label4 = Label(top, text = "Input a letter:", bg = "#f0e09c").place(x = 15, y = 80)
+Label3 = Label(top, text = "Word To Guess: ", bg = "#f0e09c").place(x = 15, y = 80)
+Label3a = tk.Entry(top, state = "disable", textvariable = Value1,justify = CENTER).place(x = 130, y = 80)
+
+Label4 = Label(top, text = "Input a letter:", bg = "#f0e09c").place(x = 15, y = 115)
 LetterInput = StringVar()
-InputBox1 = Entry(top, textvariable = LetterInput,bg = "#9bdbad").place(x = 130, y = 80)
-AddItem = Button(top,width = 11, text = "Enter", activebackground = "white", command = PlayGame,bg = "#73de91").place(x = 280, y = 76)
-HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#73de91").place(x = 150, y = 115)
+InputBox1 = Entry(top, textvariable = LetterInput,bg = "#9bdbad").place(x = 130, y = 115)
+AddItem = Button(top,width = 11, text = "Enter", activebackground = "white", command = PlayGame,bg = "#73de91").place(x = 280, y = 111)
+HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#73de91").place(x = 150, y = 145)
 
 top.mainloop()
