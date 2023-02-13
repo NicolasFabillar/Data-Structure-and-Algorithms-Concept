@@ -31,7 +31,7 @@ def CurrentWord():
             WordDisplay.append("-")
     return WordDisplay
 
-lives = 7
+lives = 5
 Hints = 3
 
 def PlayGame():
@@ -40,7 +40,7 @@ def PlayGame():
     print(UserInput)
     if len(LettersInWord) != 0 and lives != 0:
         if UserInput in UsedLetters:
-            print("\n\tYou already chose that letter. Choose a different one. ")
+            Value6.set("You already chose that letter. Choose a different one. ")
 
         elif UserInput in Alphabet and UserInput not in UsedLetters:
             UsedLetters.append(UserInput)
@@ -49,22 +49,22 @@ def PlayGame():
                     if UserInput == Letter:
                         LettersInWord.remove(UserInput)
             else:
-                print("\n\tWrong Guess!")
+                Value6.set("Wrong Guess!")
                 lives -= 1
 
         if not UserInput:
             print("Enter a letter in the box first")
 
     if len(LettersInWord) == 0:
-        print("\nBINGO! The word is: ", word)
+        Value6.set("BINGO! The word is: " + word)
 
     if lives == 0:
-        print("\nGame Over! You got no more life. The word is:", word)
+        Value6.set("Game Over! You got no more life. The word is: " + word)
 
     Value1.set(' '.join(CurrentWord()))
     Value2.set(lives)
     Value5.set(' '.join(UsedLetters))
-    print(CurrentWord())
+    LetterInput.set("")
 
 def Hint():
     global Hints
@@ -72,15 +72,18 @@ def Hint():
         FreeLetter = random.choice(LettersInWord)
         UsedLetters.append(FreeLetter)
         for Letter in LettersInWord:
-            if FreeLetter in LettersInWord:
+            if FreeLetter in Letter:
                 LettersInWord.remove(FreeLetter)
         Hints -= 1
-    else:
-        print("\n\tNo more Tips left.")
+
+    if len(LettersInWord) == 0:
+        Value6.set("BINGO! The word is: " + word)
+
+    if Hints == 0:
+        Value6.set("No more tips left.")
 
     Value1.set(' '.join(CurrentWord()))
     Value3.set(Hints)
-
 
 Value1 = StringVar()
 Value1.set(' '.join(CurrentWord()))
@@ -93,17 +96,21 @@ Label1a = tk.Entry(top, width = 13, state = "disable", textvariable = Value2,jus
 Label2 = Label(top, text = "Hints: ", bg = "#f0e09c").place(x = 190, y = 10)
 Label2a = tk.Entry(top, width = 13, state = "disable", textvariable = Value3,justify = CENTER).place(x = 250, y = 10)
 
+Value6 = StringVar()
+Label6 = tk.Entry(top, state = "disable", width = 50, textvariable = Value6,justify = CENTER).place(x = 40, y = 45)
+
 Value5 = StringVar()
-Label5 = Label(top, text = "Used Words: ", bg = "#f0e09c").place(x = 15, y = 45)
-Label5a = tk.Entry(top, state = "disable", textvariable = Value5,justify = CENTER).place(x = 130, y = 45)
+Label5 = Label(top, text = "Used Words: ", bg = "#f0e09c").place(x = 15, y = 80)
+Label5a = tk.Entry(top, state = "disable", textvariable = Value5,justify = CENTER).place(x = 130, y = 80)
 
-Label3 = Label(top, text = "Word To Guess: ", bg = "#f0e09c").place(x = 15, y = 80)
-Label3a = tk.Entry(top, state = "disable", textvariable = Value1,justify = CENTER).place(x = 130, y = 80)
 
-Label4 = Label(top, text = "Input a letter:", bg = "#f0e09c").place(x = 15, y = 115)
+Label3 = Label(top, text = "Word To Guess: ", bg = "#f0e09c").place(x = 15, y = 115)
+Label3a = tk.Entry(top, state = "disable", textvariable = Value1,justify = CENTER).place(x = 130, y = 115)
+
+Label4 = Label(top, text = "Input a letter:", bg = "#f0e09c").place(x = 15, y = 150)
 LetterInput = StringVar()
-InputBox1 = Entry(top, textvariable = LetterInput,bg = "#9bdbad").place(x = 130, y = 115)
-AddItem = Button(top,width = 11, text = "Enter", activebackground = "white", command = PlayGame,bg = "#73de91").place(x = 280, y = 111)
-HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#73de91").place(x = 150, y = 145)
+InputBox1 = Entry(top, textvariable = LetterInput,bg = "#9bdbad", justify = CENTER).place(x = 130, y = 150)
+AddItem = Button(top,width = 11, text = "Enter", activebackground = "white", command = PlayGame,bg = "#73de91").place(x = 280, y = 146)
+HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#73de91").place(x = 150, y = 180)
 
 top.mainloop()
