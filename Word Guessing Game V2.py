@@ -23,6 +23,7 @@ Alphabet = list(string.ascii_uppercase)
 UsedLetters = list()
 
 def PlayAgain():
+    global WordGuessed
     global word
     global words
     global LettersInWord
@@ -43,7 +44,8 @@ def PlayAgain():
     Value1.set(' '.join(CurrentWord()))
     Value2.set(lives)
     Value3.set(Hints)
-    Value6.set("New Game")
+    Value6.set("New Game! New Word to Guess!")
+    ChangeGreetings()
 
 def CurrentWord():
     WordDisplay = list()
@@ -56,8 +58,10 @@ def CurrentWord():
 
 lives = 5
 Hints = 3
+WordGuessed = 0
 
 def PlayGame():
+    global WordGuessed
     global lives
     UserInput = LetterInput.get().upper()
     if len(LettersInWord) != 0 and lives != 0:
@@ -81,17 +85,22 @@ def PlayGame():
 
     if len(LettersInWord) == 0:
         Value6.set("BINGO! The word is: " + word)
+        WordGuessed += 1
+        top.after(2000, PlayAgain)
 
     if lives == 0:
         Value6.set("Game Over! You got no more life. The word is: " + word)
+        WordGuessed = 0
 
     Value1.set(' '.join(CurrentWord()))
     Value2.set(lives)
     Value5.set(' '.join(UsedLetters))
     LetterInput.set("")
+    ChangeGreetings()
 
 def Hint():
     global Hints
+    global WordGuessed
     if Hints > 0:
         FreeLetter = random.choice(LettersInWord)
         UsedLetters.append(FreeLetter)
@@ -100,29 +109,45 @@ def Hint():
                 LettersInWord.remove(Letter)
 
         Hints -= 1
-        if len(LettersInWord) == 0:
-            Value6.set("BINGO! The word is: " + word)
-        else:
+        if len(LettersInWord) != 0:
             Value6.set("Hint Given!")
 
     if Hints == 0:
-        if len(LettersInWord) == 0:
-            Value6.set("BINGO! The word is: " + word)
-
-        else:
+        if len(LettersInWord) != 0:
             Value6.set("No more tips left.")
 
+    if len(LettersInWord) == 0:
+        Value6.set("BINGO! The word is: " + word)
+        WordGuessed += 1
+        top.after(2000, PlayAgain)
 
     Value1.set(' '.join(CurrentWord()))
     Value3.set(Hints)
     Value5.set(' '.join(UsedLetters))
+    ChangeGreetings()
+
 
 def GiveUp():
+    global WordGuessed
+    WordGuessed = 0
     Value6.set("You Failed! The word is: " + word)
     top.after(2000, PlayAgain)
 
-Label3 = Label(top, text = "Welcome to word guessing game! ", bg = "#AEC6CF",font=("Comic Sans MS", 25, "bold"), width = 40)
-Label3.place(x = 30, y = 26)
+def ChangeGreetings():
+    global WordGuessed
+    if WordGuessed == 0:
+        Label0.config(text="Welcome to word guessing game! ")
+    if WordGuessed == 1:
+        Label0.config(text = "Great! But can you guess 5 words?")
+    if WordGuessed == 5:
+        Label0.config(text = "Wow! But I bet you can't guess 10 words.")
+    if WordGuessed == 10:
+        Label0.config(text = "OMG! Who was I to doubt you.")
+
+
+
+Label0 = Label(top, text = "Welcome to word guessing game! ", bg = "#AEC6CF",font=("Comic Sans MS", 25, "bold"), width = 40)
+Label0.place(x = 30, y = 26)
 
 Value1 = StringVar()
 Value1.set(' '.join(CurrentWord()))
@@ -154,7 +179,7 @@ Enter = Button(top,width = 11, text = "ENTER", activebackground = "white", comma
 Enter.place(x = 670, y = 465)
 
 HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 385)
-PlayAgainButton = Button(top,width = 11, text = "Restart", activebackground = "white", command = PlayAgain,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 295)
+PlayAgainButton = Button(top,width = 11, text = "Play Again", activebackground = "white", command = PlayAgain,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 295)
 GiveUpButton = Button(top,width = 11, text = "Give Up", activebackground = "white", command = GiveUp,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 390, y = 545)
 
 top.mainloop()
