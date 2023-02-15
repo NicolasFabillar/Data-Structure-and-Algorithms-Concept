@@ -10,7 +10,7 @@ words = ["aback","abaft","abandoned","abashed","aberrant","abhorrent","abiding",
 
 top = tk.Tk()
 top.title("Word Guessing Game")
-top.geometry("850x650")
+top.geometry("850x625")
 top.configure(bg = "#AEC6CF")
 
 word = random.choice(words).upper()
@@ -22,6 +22,11 @@ LettersInWord = list(word.upper())
 Alphabet = list(string.ascii_uppercase)
 UsedLetters = list()
 
+lives = 5
+Hints = 3
+WordGuessed = 0
+GameStarter = 0
+
 def PlayAgain():
     global WordGuessed
     global word
@@ -30,22 +35,29 @@ def PlayAgain():
     global UsedLetters
     global lives
     global Hints
+    global GameStarter
 
-    word = random.choice(words).upper()
-
-    while "-" in word or " " in word:
+    if not LettersInWord or GameStarter == 1:
         word = random.choice(words).upper()
 
-    LettersInWord = list(word.upper())
-    UsedLetters = []
-    lives = 5
-    Hints = 3
-    Value5.set(' '.join(UsedLetters))
-    Value1.set(' '.join(CurrentWord()))
-    Value2.set(lives)
-    Value3.set(Hints)
-    Value6.set("New Game! New Word to Guess!")
-    ChangeGreetings()
+        while "-" in word or " " in word:
+            word = random.choice(words).upper()
+
+        LettersInWord = list(word.upper())
+        UsedLetters = []
+        lives = 5
+        Hints = 3
+        Value5.set(' '.join(UsedLetters))
+        Value1.set(' '.join(CurrentWord()))
+        Value2.set(lives)
+        Value3.set(Hints)
+        Value6.set("New Game! New Word to Guess!")
+        ChangeGreetings()
+
+    else:
+        Value6.set("Guess the word first!")
+
+    GameStarter = 0
 
 def CurrentWord():
     WordDisplay = list()
@@ -55,10 +67,6 @@ def CurrentWord():
         else:
             WordDisplay.append("-")
     return WordDisplay
-
-lives = 5
-Hints = 3
-WordGuessed = 0
 
 def PlayGame():
     global WordGuessed
@@ -129,8 +137,10 @@ def Hint():
 
 def GiveUp():
     global WordGuessed
+    global GameStarter
     WordGuessed = 0
     Value6.set("You Failed! The word is: " + word)
+    GameStarter = 1
     top.after(2000, PlayAgain)
 
 def ChangeGreetings():
@@ -179,7 +189,7 @@ Enter = Button(top,width = 11, text = "ENTER", activebackground = "white", comma
 Enter.place(x = 670, y = 465)
 
 HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 385)
-PlayAgainButton = Button(top,width = 11, text = "Play Again", activebackground = "white", command = PlayAgain,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 295)
+PlayAgainButton = Button(top,width = 11, text = "Continue", activebackground = "white", command = PlayAgain,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 295)
 GiveUpButton = Button(top,width = 11, text = "Give Up", activebackground = "white", command = GiveUp,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 390, y = 545)
 
 top.mainloop()
