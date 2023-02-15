@@ -10,7 +10,7 @@ words = ["aback","abaft","abandoned","abashed","aberrant","abhorrent","abiding",
 
 top = tk.Tk()
 top.title("Word Guessing Game")
-top.geometry("850x625")
+top.geometry("850x705")
 top.configure(bg = "#AEC6CF")
 
 word = random.choice(words).upper()
@@ -19,8 +19,11 @@ while "-" in word or " " in word:
     word = random.choice(words).upper()
 
 LettersInWord = list(word.upper())
+LettersInWord = [i for n, i in enumerate(LettersInWord) if i not in LettersInWord[:n]]
 Alphabet = list(string.ascii_uppercase)
 UsedLetters = list()
+
+print(LettersInWord)
 
 lives = 5
 Hints = 3
@@ -44,6 +47,7 @@ def PlayAgain():
             word = random.choice(words).upper()
 
         LettersInWord = list(word.upper())
+        LettersInWord = [i for n, i in enumerate(LettersInWord) if i not in LettersInWord[:n]]
         UsedLetters = []
         lives = 5
         Hints = 3
@@ -53,6 +57,7 @@ def PlayAgain():
         Value3.set(Hints)
         Value6.set("New Game! New Word to Guess!")
         ChangeGreetings()
+        print(LettersInWord)
 
     else:
         Value6.set("Guess the word first!")
@@ -103,6 +108,7 @@ def PlayGame():
     Value1.set(' '.join(CurrentWord()))
     Value2.set(lives)
     Value5.set(' '.join(UsedLetters))
+    Value7.set(WordGuessed)
     LetterInput.set("")
     ChangeGreetings()
 
@@ -132,8 +138,8 @@ def Hint():
     Value1.set(' '.join(CurrentWord()))
     Value3.set(Hints)
     Value5.set(' '.join(UsedLetters))
+    Value7.set(WordGuessed)
     ChangeGreetings()
-
 
 def GiveUp():
     global WordGuessed
@@ -154,8 +160,6 @@ def ChangeGreetings():
     if WordGuessed == 10:
         Label0.config(text = "OMG! Who was I to doubt you.")
 
-
-
 Label0 = Label(top, text = "Welcome to word guessing game! ", bg = "#AEC6CF",font=("Comic Sans MS", 25, "bold"), width = 40)
 Label0.place(x = 30, y = 26)
 
@@ -165,31 +169,36 @@ Value2 = StringVar()
 Value2.set(lives)
 Value3 = StringVar()
 Value3.set(Hints)
+Value7 = StringVar()
+Value7.set(WordGuessed)
+
 Label1 = Label(top, text = "Lives:", bg = "#9cc1d0", font=("Comic Sans MS", 20, "bold")).place(x = 40, y = 120)
-Label1a = tk.Entry(top, width = 13, state = "disable", textvariable = Value2,justify = CENTER, font=("Comic Sans MS", 20, "bold")).place(x = 160, y = 120)
-Label2 = Label(top, text = "Hints: ", bg = "#9cc1d0", font=("Comic Sans MS", 20, "bold")).place(x = 450, y = 120)
-Label2a = tk.Entry(top, width = 13, state = "disable", textvariable = Value3,justify = CENTER, font=("Comic Sans MS", 20, "bold")).place(x = 580, y = 120)
+Label1a = tk.Entry(top, width = 10, state = "disable", textvariable = Value2,justify = CENTER, font=("Comic Sans MS", 20, "bold")).place(x = 160, y = 120)
+Label2 = Label(top, text = "Hints: ", bg = "#9cc1d0", font=("Comic Sans MS", 20, "bold")).place(x = 40, y = 200)
+Label2a = tk.Entry(top, width = 10, state = "disable", textvariable = Value3,justify = CENTER, font=("Comic Sans MS", 20, "bold")).place(x = 160, y = 200)
+Label7 = Label(top, text = "Word Guessed:", bg = "#9cc1d0", font=("Comic Sans MS", 22, "bold")).place(x = 380, y = 150)
+Label7a = tk.Entry(top, width = 10, state = "disable", textvariable = Value7,justify = CENTER, font=("Comic Sans MS", 22, "bold")).place(x = 630, y = 150)
 
 Value6 = StringVar()
 Value6.set("New Game")
-Label6 = tk.Entry(top, state = "disable", width = 50, textvariable = Value6,justify = CENTER, font=("Comic Sans MS", 20, "bold") ).place(x = 20, y = 210)
+Label6 = tk.Entry(top, state = "disable", width = 50, textvariable = Value6,justify = CENTER, font=("Comic Sans MS", 20, "bold") ).place(x = 20, y = 290)
 
 Value5 = StringVar()
-Label5 = Label(top, text = "Used Letters: ", bg = "#9cc1d0",font=("Comic Sans MS", 20, "bold")).place(x = 40, y = 300)
-Label5a = tk.Entry(top, state = "disable", textvariable = Value5,justify = CENTER,font=("Comic Sans MS", 20, "bold")).place(x = 300, y = 300)
+Label5 = Label(top, text = "Used Letters: ", bg = "#9cc1d0",font=("Comic Sans MS", 20, "bold")).place(x = 40, y = 380)
+Label5a = tk.Entry(top, state = "disable", textvariable = Value5,justify = CENTER,font=("Comic Sans MS", 20, "bold")).place(x = 300, y = 380)
 
 
-Label3 = Label(top, text = "Word To Guess: ", bg = "#9cc1d0",font=("Comic Sans MS", 20, "bold")).place(x = 40, y = 390)
-Label3a = tk.Entry(top, state = "disable", textvariable = Value1,justify = CENTER,font=("Comic Sans MS", 20, "bold")).place(x = 300, y = 390)
+Label3 = Label(top, text = "Word To Guess: ", bg = "#9cc1d0",font=("Comic Sans MS", 20, "bold")).place(x = 40, y = 470)
+Label3a = tk.Entry(top, state = "disable", textvariable = Value1,justify = CENTER,font=("Comic Sans MS", 20, "bold")).place(x = 300, y = 470)
 
-Label4 = Label(top, text = "Input a letter:", bg = "#9cc1d0",font=("Comic Sans MS", 20, "bold")).place(x = 40, y = 470)
+Label4 = Label(top, text = "Input a letter:", bg = "#9cc1d0",font=("Comic Sans MS", 20, "bold")).place(x = 40, y = 550)
 LetterInput = StringVar()
-InputBox1 = Entry(top, textvariable = LetterInput,bg = "#FAC898", justify = CENTER,font=("Comic Sans MS", 20, "bold")).place(x = 300, y = 470)
+InputBox1 = Entry(top, textvariable = LetterInput,bg = "#FAC898", justify = CENTER,font=("Comic Sans MS", 20, "bold")).place(x = 300, y = 550)
 Enter = Button(top,width = 11, text = "ENTER", activebackground = "white", command = PlayGame,bg = "#FAC898",font=("Comic Sans MS", 15, "bold"))
-Enter.place(x = 670, y = 465)
+Enter.place(x = 670, y = 545)
 
-HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 385)
-PlayAgainButton = Button(top,width = 11, text = "Continue", activebackground = "white", command = PlayAgain,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 295)
-GiveUpButton = Button(top,width = 11, text = "Give Up", activebackground = "white", command = GiveUp,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 390, y = 545)
+HintButton = Button(top,width = 11, text = "Hint", activebackground = "white", command = Hint,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 465)
+PlayAgainButton = Button(top,width = 11, text = "Continue", activebackground = "white", command = PlayAgain,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 670, y = 375)
+GiveUpButton = Button(top,width = 11, text = "Give Up", activebackground = "white", command = GiveUp,bg = "#779ECB",font=("Comic Sans MS", 15, "bold")).place(x = 390, y = 625)
 
 top.mainloop()
