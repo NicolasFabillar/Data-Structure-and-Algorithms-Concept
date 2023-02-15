@@ -23,8 +23,6 @@ LettersInWord = [i for n, i in enumerate(LettersInWord) if i not in LettersInWor
 Alphabet = list(string.ascii_uppercase)
 UsedLetters = list()
 
-print(LettersInWord)
-
 lives = 5
 Hints = 3
 WordGuessed = 0
@@ -57,7 +55,6 @@ def PlayAgain():
         Value3.set(Hints)
         Value6.set("New Game! New Word to Guess!")
         ChangeGreetings()
-        print(LettersInWord)
 
     else:
         Value6.set("Guess the word first!")
