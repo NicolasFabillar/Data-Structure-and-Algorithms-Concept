@@ -159,6 +159,8 @@ def ChangeGreetings():
         Label0.config(text = "Wow! But I bet you can't guess 10 words.")
     if WordGuessed == 10:
         Label0.config(text = "OMG! Who was I to doubt you.")
+    if WordGuessed == 11:
+        Label0.config(text="But, my best was 16 ;)")
 
 Label0 = Label(top, text = "Welcome to word guessing game! ", bg = "#AEC6CF",font=("Comic Sans MS", 25, "bold"), width = 40)
 Label0.place(x = 30, y = 26)
